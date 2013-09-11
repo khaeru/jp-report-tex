@@ -48,10 +48,12 @@
 %
 % * The file is in four sections:
 %   1. Package loads and package-related commands. Packages are loaded in
-%      alphabetical order except where there are dependencies
+%      alphabetical order except where there are dependencies. LyX *may*
+%      automatically load some packages such as hyperref, natbib, or prettref;
+%      but for redundancy and to avoid error messages, \usepackage{} is given
+%      anyway.
 %   2. Redefinitions of standard commands and environments
 %   3. Unchanged content from JP_report_formatting.tex
-%   4. LyX-specific commands
 % * prettyref, as far as I can tell, does not provide a facility for making only
 %   the *first* reference to each figure, table, etc. appear boldfaced. This
 %   must be done manually in LyX, or extended through more advanced hacking here
@@ -83,13 +85,22 @@
 \usepackage[left=1in,right=1in,top=1in,bottom=0.5in,includefoot]{geometry}
 
 % hyperref (loaded by LyX)
+\usepackage{hyperref}
 \hypersetup{urlcolor=black}
 \urlstyle{same}
 
 % natbib (loaded by LyX)
+\usepackage{natbib}
 \setcitestyle{round}
 \renewcommand{\bibsection}{\section{\refname}\vskip0.5em\setstretch{1}}
 \setlength{\bibhang}{0.25in}
+
+% prettyref (loaded by LyX): formatted cross-references appear as "Figure 1 on
+% page 5" by default. Remove the page number
+\usepackage{prettyref}
+\newrefformat{tab}{Table \ref{#1}}
+\newrefformat{fig}{Figure \ref{#1}}
+\newrefformat{sub}{Section \ref{#1}}
 
 % ragged2e: text justification
 \usepackage{ragged2e}
@@ -174,12 +185,12 @@
   doi,%
   hanging,%
   rccol,%
+  relsize,%
   siunitx,%
   tabularx,%
   tikz,% to control tables
   verbatim,% for writing code
   }
- 
 
 
 %% 2. REDEFINITIONS OF STANDARD COMMANDS & ENVIRONMENTS
@@ -200,16 +211,24 @@
   }
 \makeatother
 
+% Tables: Arev sans-serif font (similar to Verdana), in a smaller size,
+% alternate row colouring
+\let\origtabular\tabular
+\let\origendtabular\endtabular
+\renewenvironment{tabular}[1]{%
+  \fontfamily{fav}\selectfont%
+  \smaller%
+  \rowcolors{2}{}{lightergray}%
+  \origtabular{#1}%
+  }{\origendtabular}
+
 
 %% 3. UNCHANGED CONTENT FROM JP_report_formatting.tex
 % N.B. — the current version of jp-report.sty was developed for a JP Report that
 % didn't make use of the following features. Using them within LyX may produce
 % unexpected results.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Appendix
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \let\oldappendix\appendix
 \renewcommand\appendix{
   \renewcommand{\baselinestretch}{1.0}
@@ -229,12 +248,7 @@
   \addcontentsline{toc}{section}{APPENDIX\,\Alph{section}#1}
 }
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Acknowledgments
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \newcommand{\acknowledgments}[1]{
 \vspace{16pt}
 \par
@@ -243,26 +257,10 @@
 \noindent #1\\[16pt]
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Equations
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \setlength\mathindent{0.25in}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Column Types
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newcolumntype{C}{>{\centering\arraybackslash}X}
-\newcolumntype{L}{>{\raggedright\arraybackslash}X}
-\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
-\newcommand{\tableheader}[3]{
-\multicolumn{#1}{#2}{\textbf{#3}}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Enumerate lists
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% Lists — enumerate
 \newcounter{qcounter}
 \renewenvironment{enumerate}{%
   \setcounter{qcounter}{1}%
@@ -273,10 +271,7 @@
   \setlength\labelsep{0.15in}}}
   {\end{list}}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Itemize lists
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% Lists — itemize
 \renewenvironment{itemize}{%
   \begin{list}{$\bullet$}{%
   \setlength\leftmargin{0.5in}%
@@ -285,23 +280,9 @@
   \setlength\topsep{0pt}}}
   {\end{list}}
 
-
-%% 4. LYX-SPECIFIC CODE
-
-% prettyref (loaded by LyX): formatted cross-references appear as "Figure 1 on
-% page 5" by default. Remove the page number
-\newrefformat{tab}{Table \ref{#1}}
-\newrefformat{fig}{Figure \ref{#1}}
-\newrefformat{sub}{Section \ref{#1}}
-
-%% 5. TEMPORARY
-
-\usepackage{relsize}
-\let\origtabular\tabular
-\let\origendtabular\endtabular
-\renewenvironment{tabular}[1]{%
-  \fontfamily{fav}\selectfont%
-  \smaller%
-  \rowcolors{2}{}{lightergray}%
-  \origtabular{#1}%
-  }{\origendtabular}
+% Table column types
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+\newcommand{\tableheader}[3]{
+\multicolumn{#1}{#2}{\textbf{#3}}}
