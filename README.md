@@ -9,7 +9,9 @@ This repository contains the following key files:
 
 Together, these allow the formatting a document according to the Style Guideline for the
 [report series][1] of the
-[MIT Joint Program on the Science & Policy of Global Change][2].[^1]
+[MIT Joint Program on the Science & Policy of Global Change][2].
+
+> Note: Although the LaTeX code in these templates has been assembled from publicly-available snippets and is likewise publicly available, *only* PDF documents downloaded from the Joint Program website are official JP Reports.
 
 It also contains:
 
@@ -109,26 +111,25 @@ Refer to `template/lyx/template.lyx` for a complete example.
 
 Caveats
 -------
-Issues sometimes encountered when using these style files are listed here, for reference.
+Issues sometimes encountered when using these style files are listed here, for convenience.
 
 ### Incorrect table of contents entries for sections
-Symptom: If a new ((sub)sub)section begins at the start of a new page, and there is a figure at the bottom of the preceding page, the page number for the section in the table of contents is incorrect.
+**Symptom:** If a new ((sub)sub)section begins at the start of a new page, and there is a figure at the bottom of the preceding page, the page number for the section in the table of contents is incorrect.
 
-Fix: Insert a `\clearpage` (LyX: *Insert → Formatting → Clear Page*) command before the new section. 
+**Fix:** Insert a `\clearpage` (LyX: *Insert → Formatting → Clear Page*) command before the new section. 
 
 TODOs
 -----
 - Document paths for Windows users.
 - Enhance `jp-report.module` to obviate more manual settings in LyX.
+- Contents of the documents in `template` are slightly misleading, because they refer to version 1.2 of this template. Update.
 
 Authors
 -------
 - Erwan Monier <<emonier@MIT.EDU>>
-- Paul Natsuo Kishimoto \<pnk@MIT.EDU>>
+- Paul Natsuo Kishimoto <<pnk@MIT.EDU>>
 
 [1]: http://globalchange.mit.edu
 [2]: http://globalchange.mit.edu/research/publications/reports/all
 [3]: http://en.wikibooks.org/wiki/LaTeX/Bibliography_Management#BibTeX
 [4]: http://wiki.lyx.org/LyX/UserDir
-
-[^1]: Although the LaTeX code in these templates has been assembled from publicly-available snippets and is likewise publicly available, *only* PDF documents downloaded from the Joint Program website are official JP Reports.
