@@ -9,9 +9,9 @@ This repository contains the following key files:
 
 Together, these allow the formatting a document according to the Style Guideline for the
 [report series][1] of the
-[MIT Joint Program on the Science & Policy of Global Change][2].
+[MIT Joint Program on the Science & Policy of Global Change][2]. Since academic journals often require manuscripts in LaTeX format, using this package can obviate the need to reformat an entire paper in a word processor like Microsoft Word.
 
-> Note: Although the LaTeX code in these templates has been assembled from publicly-available snippets and is likewise publicly available, *only* PDF documents downloaded from the Joint Program website are official JP Reports.
+> Note: Although the LaTeX code in these templates has been assembled from publicly-available snippets and is likewise publicly available, *only* PDF documents downloaded from the Joint Program website are official Joint Program Reports.
 
 It also contains:
 
@@ -22,6 +22,8 @@ It also contains:
   - `tex/template.tex` — template for a LaTeX document, containing some documentation of how to format various parts of the document to meet the 
   - `lyx/template.lyx` — template for a LyX document, with the same contents
 - `jp-report-12.sty` — version 1.2 of the LaTeX style file
+
+Joint Program researchers preparing reports should consult the full instructions on the ["Report Series Info"][4] page (MIT certificates required) of the Joint Program wiki.
 
 Installation
 ------------
@@ -75,7 +77,7 @@ This LyX module, when loaded for a LyX document, causes `jp-report.sty` to be
 applied to that document.
 
 It should be placed in the LyX *user directory*, the location of which is
-documented [on the LyX Wiki][4].
+documented [on the LyX Wiki][5].
 
 LaTeX usage
 -----------
@@ -132,4 +134,5 @@ Authors
 [1]: http://globalchange.mit.edu
 [2]: http://globalchange.mit.edu/research/publications/reports/all
 [3]: http://en.wikibooks.org/wiki/LaTeX/Bibliography_Management#BibTeX
-[4]: http://wiki.lyx.org/LyX/UserDir
+[4]: https://wikis.mit.edu/confluence/display/globalchange/Report+Series
+[5]: http://wiki.lyx.org/LyX/UserDir
