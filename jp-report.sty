@@ -64,18 +64,28 @@
 % abstract: control appearance of the abstract
 \usepackage{abstract}
 % left and right indent of 0.4"
-\setlength{\absleftindent}{0.4in}
-\setlength{\absrightindent}{0.4in}
+\setlength\absleftindent{0.4in}
+\setlength\absrightindent{0.4in}
+\setlength\abstitleskip{-2.5em}
 % text justified, small font, italicized
-\renewcommand\abstracttextfont{\vspace{-1em}\justifying\footnotesize\itshape}
+\renewcommand\abstracttextfont{%
+\justifying\singlespacing\noindent\footnotesize\itshape}
+
+% amsmath (loaded by LyX): equation indents
+\usepackage{amsmath}
+\setlength{\mathindent}{0.25in}
 
 % caption: control format of figure and table captions
-\usepackage[indention=.5cm,labelfont=bf,labelsep=period]{caption}
+\usepackage[
+  indention = 5mm,
+  labelfont = bf,
+  labelsep = period,
+  ]{caption}
 % sans-serif font for captions
 \DeclareCaptionFont{phv}{\fontfamily{phv}\selectfont}
 \captionsetup{font={phv,footnotesize}}
 % different formatting for tables: flush left
-\captionsetup[table]{indention=0cm,singlelinecheck=off}
+\captionsetup[table]{indention = 0cm, singlelinecheck = false}
 
 % footmisc: position & formatting of footnotes
 \usepackage[hang,flushmargin,bottom]{footmisc}
@@ -86,7 +96,9 @@
 
 % hyperref (loaded by LyX)
 \usepackage{hyperref}
-\hypersetup{urlcolor=black}
+\hypersetup{colorlinks, citecolor = black, linkcolor = black}
+\hypersetup{urlcolor = blue}
+%\hypersetup{urlcolor = black}
 \urlstyle{same}
 
 % natbib (loaded by LyX)
@@ -112,8 +124,7 @@
 
 % setspace: line spacing
 \usepackage{setspace}
-% JP format line spacing
-\onehalfspacing
+\setstretch{1.1}
 
 % times: Times New Roman font
 \usepackage{times}
@@ -151,7 +162,7 @@
 % titling: control the title block
 \usepackage{titling}
 % move title closer to top of page
-\setlength{\droptitle}{-0.8in}
+\setlength{\droptitle}{-0.7in}
 \renewcommand{\maketitlehooka}{\begin{center}}
 % font style for title
 \pretitle{\normalfont\bfseries}
@@ -159,24 +170,25 @@
 \posttitle{\par\vspace{0.5em}}
 % font style for author(s)
 \preauthor{\normalfont}
-\postauthor{}
+\postauthor{} \predate{} \postdate{}
 % remove some space after the titleblock
-\renewcommand{\maketitlehookd}{\end{center}\vspace{-1in}}
+\renewcommand{\maketitlehookd}{\end{center}}
 % the following three commands set up a hanging \thanks with
 \setlength{\thanksmarkwidth}{1ex}
 \setlength{\thanksmargin}{0.2in}
 \renewcommand{\footnotelayout}{\hskip -0.13in}
 
-% gray colour for tables. §3.3.5: "Do not use unnecessary horizontal lines in
-% rows, but if there are many rows: add gray shading (10%) to alternate rows, or
-% thin (¼ pt) gray horizontal divider lines."
-\definecolor{lightergray}{gray}{0.85}
+% xcolor (loaded by LyX): gray colour for tables
+% §3.3.5: "Do not use unnecessary horizontal lines in rows, but if there are
+% many rows: add gray shading (10%) to alternate rows, or thin (¼ pt) gray
+% horizontal divider lines."
+\usepackage[table]{xcolor}
+\definecolor{grey}{gray}{0.9}
 
 % other packages without options. Some packages are omitted here:
-% * graphicx, xcolor — loaded by LyX if graphics appear in the document
+% * graphicx — loaded by LyX if graphics appear in the document
 % * xfrac — not in the TeXLive distribution
 % * authblk — no longer used
-\usepackage[table]{xcolor}
 \usepackage{%
   bookmark,%
   ctable,%
@@ -194,6 +206,34 @@
 
 
 %% 2. REDEFINITIONS OF STANDARD COMMANDS & ENVIRONMENTS
+
+% Appendix
+\let\oldappendix\appendix
+\let\oldsection\section
+\renewcommand\appendix{
+  \oldappendix
+  \singlespacing
+  % format the name of the appendix: APPENDIX A
+  \renewcommand*\thesection{APPENDIX \Alph{section}}
+  % add the appendix letter before figure and table numbers
+  \renewcommand*\thetable{\Alph{section}\arabic{table}}
+  \renewcommand*\thefigure{\Alph{section}\arabic{figure}}
+  % centered section title
+  \titleformat{\section}{\centering\normalfont\bf}{\thesection: }{0em}{}
+  % identical to the above \titlecontents{section}, except replace '.' with ':'
+  \titlecontents{section}[0.5in]{\vspace{-2pt}}%
+    {\footnotesize\thecontentslabel:\,\,\uppercase}{}%
+    {\titlerule*[0.2em]{\scriptsize{.}}\thecontentspage}
+  % reset the table and figure counters at the beginning of each appendix
+  \renewcommand\section[1]{
+    \oldsection{##1}
+    \setcounter{table}{0}
+    \setcounter{figure}{0}
+  }
+}
+
+% Date: suppress it
+\date{}
 
 % In most instances simply \renewcommand\contentsname would be sufficient, but
 % to comply with the JP Author's Guide it is necessary to remove vertical space
@@ -213,40 +253,22 @@
 
 % Tables: Arev sans-serif font (similar to Verdana), in a smaller size,
 % alternate row colouring
+\newcommand\jptable[1]{
+  \fontfamily{fav}\selectfont%
+  \smaller%
+  \rowcolors{#1}{}{grey}%
+  }
 \let\origtabular\tabular
 \let\origendtabular\endtabular
 \renewenvironment{tabular}[1]{%
   \fontfamily{fav}\selectfont%
   \smaller%
-  \rowcolors{2}{}{lightergray}%
+  \rowcolors{2}{}{grey}%
   \origtabular{#1}%
   }{\origendtabular}
 
 
 %% 3. UNCHANGED CONTENT FROM JP_report_formatting.tex
-% N.B. — the current version of jp-report.sty was developed for a JP Report that
-% didn't make use of the following features. Using them within LyX may produce
-% unexpected results.
-
-% Appendix
-\let\oldappendix\appendix
-\renewcommand\appendix{
-  \renewcommand{\baselinestretch}{1.0}
-  \normalsize
-  \setcounter{section}{0}
-%\renewcommand*\thetable{\Alph{section}\arabic{table}}
-%\renewcommand*\thefigure{\Alph{section}\arabic{figure}}
-  \titleformat{\section}{\centering\normalfont\bf}{\thesection}{0em}{}
-%\titlespacing{\section}{0pt}{20pt}{4pt}
-}
-\newcommand{\appsection}[1]{
-  \setcounter{table}{0}
-  \setcounter{figure}{0}
-  \stepcounter{section}
-  \section*{APPENDIX\,\Alph{section}#1}
-  \phantomsection
-  \addcontentsline{toc}{section}{APPENDIX\,\Alph{section}#1}
-}
 
 % Acknowledgments
 \newcommand{\acknowledgments}[1]{
@@ -256,9 +278,6 @@
 \renewcommand{\baselinestretch}{0.8}\normalsize
 \noindent #1\\[16pt]
 }
-
-% Equations
-\setlength\mathindent{0.25in}
 
 % Lists — enumerate
 \newcounter{qcounter}

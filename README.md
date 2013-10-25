@@ -1,25 +1,34 @@
-MIT Joint Program on the Science &amp; Policy of Global Change — LaTeX style
-============================================================================
+MIT Joint Program on the Science &amp; Policy of Global Change — LaTeX package
+==============================================================================
 
-This repository contains:
-* `jp-report.sty` — a LaTeX style file
-* `jpreport.bst` — a BibTeX style file
-* `jp-report.module` — a LyX module
+This repository contains the following key files:
 
-Together, these allow the formatting of a report in the style of the
+- `jp-report.sty` — a LaTeX style file
+- `jpreport.bst` — a BibTeX style file
+- `jp-report.module` — a LyX module
+
+Together, these allow the formatting a document according to the Style Guideline for the
 [report series][1] of the
-[MIT Joint Program on the Science & Policy of Global Change][2].
+[MIT Joint Program on the Science & Policy of Global Change][2].[^1]
 
-[1]: globalchange.mit.edu
-[2]: globalchange.mit.edu/research/publications/reports/all
+It also contains:
 
+- `template/`
+  - `figure/` — graphics files
+  - `references.bib` — bibliography entries, in [BibTeX][3] format.
+  - `template-12.pdf` — a reference document, from version 1.2 of the package
+  - `tex/template.tex` — template for a LaTeX document, containing some documentation of how to format various parts of the document to meet the 
+  - `lyx/template.lyx` — template for a LyX document, with the same contents
+- `jp-report-12.sty` — version 1.2 of the LaTeX style file
 
 Installation
 ------------
 Use of the style files and modules requires that they be correctly installed, so
 they can be located by LyX, `latex`, `pdflatex`, `bibtex` and other programs
-which transform LyX/LaTeX source into output (usually a PDF document). Because
+which transform LyX/LaTeX documents into output (usually a PDF document). Because
 the files have different roles, each must be installed in a distinct location.
+
+To get a copy of the files, clone this Github repository, or use the *Download ZIP* link in the right sidebar.
 
 
 ### jp-report.sty
@@ -63,30 +72,63 @@ Typical values are:
 This LyX module, when loaded for a LyX document, causes `jp-report.sty` to be
 applied to that document.
 
-It should be placed in the LyX user directory, the location of which is
-documented [on the LyX Wiki][3].
+It should be placed in the LyX *user directory*, the location of which is
+documented [on the LyX Wiki][4].
 
-[3]: http://wiki.lyx.org/LyX/UserDir
+LaTeX usage
+-----------
+The style files are invoked with following LaTeX code in the document preamble:
+
+```
+\documentclass[12pt,fleqn]{article}
+\usepackage{jp-report}
+\begin{document}
+…
+```
+The options to the `article` document class are necessary to give the proper font size ("12pt") and for displayed equations to be left-aligned ("fleqn").
+
+Before including BibTeX entries from a file such as `bibfile.bib`, the following command invokes the JP Report BibTeX style:
+```
+\bibliographystyle{jpreport}
+\bibliography{bibfile}
+```
+
+Refer to `template/tex/template.tex` for a complete example.
 
 
-Usage
------
+LyX usage
+---------
 Some requirements of the JP Report style are met by loading the module:
-* *Document → Settings… → Modules*
-* Choose "MIT Joint Program report" and click "Add".
 
-In addition: **TODO**
+- *Document → Settings… → Modules*
+- Choose "MIT Joint Program report" and click "Add".
 
+When inserting a BibTeX Bibliography into a LyX document, enter "jpreport" into the *Style* entry of the dialog box.
+
+Refer to `template/lyx/template.lyx` for a complete example.
+
+Caveats
+-------
+Issues sometimes encountered when using these style files are listed here, for reference.
+
+### Incorrect table of contents entries for sections
+Symptom: If a new ((sub)sub)section begins at the start of a new page, and there is a figure at the bottom of the preceding page, the page number for the section in the table of contents is incorrect.
+
+Fix: Insert a `\clearpage` (LyX: *Insert → Formatting → Clear Page*) command before the new section. 
 
 TODOs
 -----
-* Document paths for Windows users.
-* Document additional required steps to apply the style.
-* Enhance `jp-report.module` to obviate the manual settings under "Usage".
-
+- Document paths for Windows users.
+- Enhance `jp-report.module` to obviate more manual settings in LyX.
 
 Authors
 -------
-Erwan Monier <emonier@MIT.EDU>
+- Erwan Monier <<emonier@MIT.EDU>>
+- Paul Natsuo Kishimoto \<pnk@MIT.EDU>>
 
-Paul Natsuo Kishimoto <pnk@MIT.EDU>
+[1]: http://globalchange.mit.edu
+[2]: http://globalchange.mit.edu/research/publications/reports/all
+[3]: http://en.wikibooks.org/wiki/LaTeX/Bibliography_Management#BibTeX
+[4]: http://wiki.lyx.org/LyX/UserDir
+
+[^1]: Although the LaTeX code in these templates has been assembled from publicly-available snippets and is likewise publicly available, *only* PDF documents downloaded from the Joint Program website are official JP Reports.

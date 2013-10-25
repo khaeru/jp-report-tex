@@ -1,0 +1,345 @@
+% LaTeX template file for a MIT Joint Program report series
+%
+% The MIT Joint Program report series formatting requirements can be found in
+% the guidelines .tex and associated .pdf files provided with the MIT Joint Program
+% Latex package
+%
+% THIS FILE SHOULD NOT BE MODIFIED!!!!!
+%
+% PNK: commented the following line so this can be used as a style file
+% \documentclass[12pt,table]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Add various required packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[left=1in, right=1in, top=1in, bottom=0.5in, dvips, pdftex]{geometry} % hack to specify page and header formatting
+\usepackage[hypertexnames=false,linktoc=all,colorlinks=true,citecolor=black,linkcolor=black,urlcolor=blue]{hyperref} % To control hypertext links
+\usepackage{times}% Times New Roman font
+\usepackage[pdftex]{graphicx} % to add graphics
+\usepackage[authoryear,round]{natbib} % for the citations and references
+\usepackage{titlesec} % to control format of section headings
+\usepackage[fleqn]{amsmath} % for math with left align
+\usepackage[indention=.5cm,labelsep=period,justification=raggedright]{caption} % to control format of captions
+\usepackage{tocloft} % to control the Table of Contents
+\usepackage{xfrac} % for nice looking fraction in text (1/2)
+\usepackage[hang,flushmargin,bottom]{footmisc} % for positioning of footnotes
+\usepackage{ragged2e} % to control the text justification
+\usepackage{verbatim} % for writing code
+\usepackage{tikz} % to control tables
+\usepackage{ctable}
+\usepackage{doi}
+\usepackage{bookmark}
+\usepackage[noblocks]{authblk}
+\usepackage{hanging}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{dcolumn}
+\usepackage{siunitx}
+\usepackage{rccol}
+\usepackage{placeins}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Various commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\degree}{\ensuremath{^\circ}}
+\newcommand{\BibTeX}{{\sc Bib}\TeX}
+\let\oldverbatim\verbatim
+\let\oldendverbatim\endverbatim
+\renewenvironment{verbatim}{\endgraf\footnotesize\oldverbatim}{\oldendverbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\textheight 9in
+\renewcommand{\normalsize}{\fontsize{12pt}{16pt}\selectfont}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand\bibsection{
+\section{REFERENCES}
+}
+\setlength{\bibhang}{0.25in}
+\bibliographystyle{jpreport}
+%\newcommand{\doi}[1]{\href{http://dx.doi.org/#1}{doi: #1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% URL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\urlstyle{same}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sections formatting
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand*\thesection{\arabic{section}.\,\,}
+\renewcommand*\thesubsection{\arabic{section}.\arabic{subsection}\,\,} 
+\renewcommand*\thesubsubsection{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}\,\,} 
+\titleformat{\section}{\normalfont\bf}{\thesection}{0em}{}
+\titleformat{\subsection}{\normalfont\bf}{\thesubsection}{0em}{}
+\titleformat{\subsubsection}{\normalfont\it\bfseries}{\thesubsubsection}{0em}{}
+\titlespacing{\section}{0pt}{6pt}{4pt}
+\titlespacing{\subsection}{\parindent}{10pt}{6pt}
+\titlespacing{\subsubsection}{\parindent}{8pt}{4pt}
+
+\let\oldsection\section
+\renewcommand{\section}[1]{
+\stepcounter{section}
+\phantomsection
+\addcontentsline{toc}{section}{\arabic{section}.\,\,\uppercase{#1}}
+\oldsection*{\arabic{section}.\,\,\uppercase{#1}}
+}
+
+\let\oldsubsection\subsection
+\renewcommand{\subsection}[1]{
+\stepcounter{subsection}
+\phantomsection
+\addcontentsline{toc}{subsection}{\arabic{section}.\arabic{subsection}\,\,#1}
+\oldsubsection*{\arabic{section}.\arabic{subsection}\,\,#1}
+}
+
+\let\oldsubsubsection\subsubsection
+\renewcommand{\subsubsection}[1]{
+\stepcounter{subsubsection}
+\phantomsection
+\addcontentsline{toc}{subsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}\,\, \normalfont\it{#1}}
+\oldsubsubsection*{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}\,\,#1}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Appendix
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\let\oldappendix\appendix
+\renewcommand\appendix{
+\renewcommand{\baselinestretch}{1.0}
+\normalsize
+\setcounter{section}{0}
+\let\section\oldsection
+}
+
+\let\appsection\section
+\renewcommand{\appsection}[1]{
+\setcounter{table}{0}
+\setcounter{figure}{0}
+\renewcommand*\thetable{\Alph{section}\arabic{table}}
+\renewcommand*\thefigure{\Alph{section}\arabic{figure}}
+\titleformat{\section}{\centering\normalfont\bf}{\thesection}{0em}{}
+\titlespacing{\section}{0pt}{20pt}{4pt}
+\stepcounter{section}
+\section*{APPENDIX\,\Alph{section}#1}
+\phantomsection
+\addcontentsline{toc}{section}{APPENDIX\,\Alph{section}#1}
+}
+
+%\makeatletter
+%\newcommand\appendix@section[1]{%
+%  \refstepcounter{section}%
+%  \orig@section*{Appendix \@Alph\c@section: #1}%
+%  \addcontentsline{toc}{section}{Appendix \@Alph\c@section: #1}%
+%}
+%\let\orig@section\section
+%\g@addto@macro\appendix{\let\section\appendix@section}
+%\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Acknowledgments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\acknowledgments}[1]{
+\vspace{16pt}
+\par
+\noindent {\normalsize\textbf{Acknowledgements}}\\[5pt]
+\renewcommand{\baselinestretch}{0.8}\normalsize
+\noindent #1\\[16pt]
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Equations
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength\mathindent{0.25in}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Colors
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{black}{rgb}{0,0,0}
+\definecolor{grey}{rgb}{0.85,0.85,0.85}   %iTunes
+\definecolor{white}{rgb}{1,1,1} %Finder
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Footnotes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\setlength{\footnotesep}{2.2ex}
+\setlength{\skip\footins}{0.25in}
+\makeatletter
+\renewcommand{\@makefntext}[1]{
+\parindent=0pt
+\hangindent=0.2in
+\renewcommand{\baselinestretch}{1} \footnotesize
+\@textsuperscript{\normalfont\@thefnmark} #1
+}
+\makeatother 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Captions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+\newcommand{\tableheader}[3]{
+\multicolumn{#1}{#2}{\textbf{#3}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Captions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareCaptionFormat{myformat}{\fontfamily{phv}\selectfont#1#2#3\par}
+\let\oldcaption\caption
+\renewcommand{\caption}[1]{\captionsetup{format=myformat,font=footnotesize,labelfont=bf}\oldcaption{#1}}
+\newcommand{\tablecaption}[1]{\captionsetup{singlelinecheck=off}\caption{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Enumerate lists
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcounter{qcounter}
+\renewenvironment{enumerate}{\setcounter{qcounter}{1}\begin{list}{\arabic{qcounter}.}{\usecounter{qcounter}\setlength\leftmargin{0.75in}\setlength\itemsep{2pt}\setlength\labelsep{0.15in}}}{\end{list}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Itemize lists
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewenvironment{itemize}{\begin{list}{$\bullet$}{\setlength\leftmargin{0.5in}\setlength\itemsep{-2pt}\setlength\labelsep{0.15in}\setlength\topsep{0pt}}}{\end{list}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table of Contents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setcounter{tocdepth}{3}
+\newcommand{\tocsize}{\fontsize{10pt}{12pt}\selectfont}
+\renewcommand{\contentsname}{}
+\renewcommand{\cfttoctitlefont}{\hfill\footnotesize\bfseries}
+\renewcommand{\cftaftertoctitle}{\hfill}
+\renewcommand{\cftdot}{\scriptsize{.}}
+\renewcommand{\cftdotsep}{0.2}
+\renewcommand{\cftsecdotsep}{\cftdotsep}
+\renewcommand{\cftsecfont}{\tocsize\normalfont}
+\renewcommand{\cftsecpagefont}{\tocsize\normalfont}
+\renewcommand{\cftsubsecfont}{\tocsize\normalfont}
+\renewcommand{\cftsubsecpagefont}{\tocsize\normalfont}
+\renewcommand{\cftsubsubsecfont}{\tocsize\itshape}
+\renewcommand{\cftsubsubsecpagefont}{\tocsize\normalfont}
+\cftsetindents{section}{0.4in}{0.13in}
+\cftsetindents{subsection}{0.6in}{0.23in}
+\cftsetindents{subsubsection}{0.8in}{0.33in}
+\setlength{\cftbeforesecskip}{0pt}
+\setlength{\cftbeforesubsecskip}{0pt}
+\setlength{\cftbeforesubsubsecskip}{-0.2mm}
+\setlength{\cftbeforetoctitleskip}{0pt}
+\setlength{\cftaftertoctitleskip}{0pt}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftsecdotsep}}
+\cftsetpnumwidth{0.5in}
+\cftsetrmarg{0.5in}
+\renewcommand{\cftsecfillnum}[1]{%
+  {\cftsecleader}\nobreak
+ \cftsecpagefont{#1}\par}
+\renewcommand{\cftsubsecfillnum}[1]{%
+  {\cftsubsecleader}\nobreak
+  \cftsubsecpagefont{#1}\par}
+\renewcommand{\cftsubsubsecfillnum}[1]{%
+  {\cftsubsubsecleader}\nobreak
+  \cftsubsubsecpagefont{#1}\par}
+  
+\newcommand{\toc}{
+\vspace{-10pt}
+\begin{center}
+{\small\textbf{Contents}}
+\end{center}
+\vspace{-6pt}
+\begin{minipage}{5.8in}
+\tableofcontents
+\end{minipage}
+
+\setcounter{footnote}{0}
+\raggedright
+\parindent 0.2in
+\renewcommand{\thefootnote}{\arabic{footnote}}
+\vspace{18pt}
+} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Affiliations
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+\renewcommand\AB@affilsep{}
+\renewcommand\AB@affilsepx{\parindent=0pt\hangindent=0.2in\protect\par\protect\Affilfont}
+\renewcommand\@author{
+    \ifx\AB@affillist\AB@empty\AB@author\else
+    \ifnum\value{affil}>\value{Maxaffil}\def\rlap##1{##1}%
+    \AB@authlist\let\thefootnote\relax\footnotetext{\AB@affillist}
+    \else  \AB@authors\fi\fi}
+    
+\renewcommand\affil[2][]%
+   {\newaffiltrue\let\AB@blk@and\AB@pand
+      \if\relax#1\relax\def\AB@note{\AB@thenote}\else\def\AB@note{#1\hspace{3pt}}%
+        \setcounter{Maxaffil}{0}\fi
+      \begingroup
+        \let\protect\@unexpandable@protect
+        \def\thanks{\protect\thanks}\def\footnote{\protect\footnote}%
+        \@temptokena=\expandafter{\AB@authors}%
+        {\def\\{\protect\protect\Affilfont}\xdef\AB@temp{#2}}%
+         \xdef\AB@authors{\the\@temptokena\AB@las\AB@au@str
+         \protect\\[\affilsep]\protect\Affilfont\AB@temp}%
+         \gdef\AB@las{}\gdef\AB@au@str{}%
+        {\def\\{, \ignorespaces}\xdef\AB@temp{#2}}%
+        \@temptokena=\expandafter{\AB@affillist}%
+        \xdef\AB@affillist{\hspace{-0.95pt}\the\@temptokena \AB@affilsep \AB@affilnote{\AB@note}\protect\Affilfont\AB@temp}%
+      \endgroup
+       \let\AB@affilsep\AB@affilsepx
+}
+\makeatother
+\renewcommand\Authands{ and }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Abstract
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\abstractsize}{\fontsize{10pt}{11.5pt}\selectfont}
+\renewcommand{\abstract}[1]{
+\renewcommand{\baselinestretch}{1.0}
+\begin{center}
+%\vspace{-0.26ex}
+{\small\textbf{Abstract}}\\[12pt]
+{\abstractsize
+\begin{minipage}{5.9in}
+\noindent\emph{#1}
+\end{minipage}
+}
+\end{center}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+\def\maketitle{%
+  \begin{center}\leavevmode
+    \normalfont
+    {\normalsize\textbf{\@title}\par}%
+    \vspace{6pt}
+    {\normalsize\@author}%
+  \end{center}%
+  }
+\makeatother

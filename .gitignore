@@ -1,0 +1,5 @@
+# Files related to LaTeX compilation
+*.log
+*.toc
+# Files related to LyX
+*.lyx~
