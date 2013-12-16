@@ -1,5 +1,10 @@
 # Files related to LaTeX compilation
+*.aux
+*.bbl
+*.blg
 *.log
 *.toc
+# Output files
+template/tex/template.pdf
 # Files related to LyX
 *.lyx~
