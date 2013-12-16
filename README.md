@@ -113,12 +113,23 @@ Refer to `template/lyx/template.lyx` for a complete example.
 
 Caveats
 -------
-Issues sometimes encountered when using these style files are listed here, for convenience.
+Issues sometimes encountered when using these style files (or LaTeX generally) are listed here, for convenience.
 
 ### Incorrect table of contents entries for sections
 **Symptom:** If a new ((sub)sub)section begins at the start of a new page, and there is a figure at the bottom of the preceding page, the page number for the section in the table of contents is incorrect.
 
-**Fix:** Insert a `\clearpage` (LyX: *Insert → Formatting → Clear Page*) command before the new section. 
+**Fix:** Insert a `\clearpage` (LyX: *Insert → Formatting → Clear Page*) command before the new section.
+
+### Unexpected figure placement
+**Symptom:** Figures appear in unexpected places.
+
+**Fix:** Read [this section of the LaTeX Wikibook][6] to understand the built-in LaTeX rules that determining the placement of "floats" (the `figure` environment is one kind of float) and the use of *placement specifiers*.
+
+One technique for getting the desired output is:
+
+1. *Remove all placement specifiers*. In LaTeX, replace e.g. `\begin{figure}[h!tp]` with `\begin{figure}`. In LyX: *Document → Settings… → Float Placement → Use default placement*—and for each `float: Figure` block: *\[Right click\] → Settings… → Use default placement*. This step makes it easier to understand the effect of changes in the following two steps.
+2. *Move* the actual figure codes to different locations in the text, roughly before or after the paragraphs where you wish the figures to appear.
+3. *Add placement specifiers*, only where necessary, to fine-tune the location of figures in the output.
 
 TODOs
 -----
@@ -136,3 +147,4 @@ Authors
 [3]: http://en.wikibooks.org/wiki/LaTeX/Bibliography_Management#BibTeX
 [4]: https://wikis.mit.edu/confluence/display/globalchange/Report+Series
 [5]: http://wiki.lyx.org/LyX/UserDir
+[6]: http://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions#Floats
