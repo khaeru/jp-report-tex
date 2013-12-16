@@ -82,8 +82,7 @@
   labelsep = period,
   ]{caption}
 % sans-serif font for captions
-\DeclareCaptionFont{phv}{\fontfamily{phv}\selectfont}
-\captionsetup{font={phv,footnotesize}}
+\captionsetup{font={sf,footnotesize}}
 % different formatting for tables: flush left
 \captionsetup[table]{indention = 0cm, singlelinecheck = false}
 
@@ -135,19 +134,19 @@
 \usepackage{titlesec,titletoc}
 % general
 \newcommand{\tocsize}{\fontsize{10pt}{10pt}\selectfont}
-\contentsmargin{0.5in} % right margin for ToC
+\contentsmargin{0.4in} % right margin for ToC
 % sections
 \titleformat{\section}{\normalfont\bfseries}{\thesection.\,\,}{0em}%
   {\MakeUppercase}
 \titlespacing{\section}{0pt}{6pt}{4pt}
-\titlecontents{section}[0.5in]{\vspace{-2pt}}%
+\titlecontents{section}[0.4in]{\vspace{-2pt}}%
   {\footnotesize\thecontentslabel.\,\,\uppercase}{}%
   {\titlerule*[0.2em]{\scriptsize{.}}\thecontentspage}
 % subsections
 \renewcommand*\thesubsection{\arabic{section}.\arabic{subsection}}
 \titleformat{\subsection}{\normalfont\bf}{\thesubsection\,\,}{0em}{}
 \titlespacing{\subsection}{\parindent}{10pt}{6pt}
-\titlecontents{subsection}[0.7in]{\vspace{-2pt}}%
+\titlecontents{subsection}[0.6in]{\vspace{-2pt}}%
   {\tocsize\thecontentslabel\,\,}{}%
   {\titlerule*[0.2em]{\scriptsize{.}}\thecontentspage}
 % subsubsections
@@ -155,7 +154,7 @@
 \titlespacing{\subsubsection}{\parindent}{8pt}{4pt}
 \titleformat{\subsubsection}{\normalfont\it\bfseries}{\thesubsubsection\,\,}%
   {0em}{}
-\titlecontents{subsubsection}[0.9in]{\vspace{-2pt}}%
+\titlecontents{subsubsection}[0.8in]{\vspace{-2pt}}%
   {\tocsize\it\thecontentslabel\,\,}{}%
   {\titlerule*[0.2em]{\scriptsize{.}}\thecontentspage}
 
@@ -207,6 +206,8 @@
 
 %% 2. REDEFINITIONS OF STANDARD COMMANDS & ENVIRONMENTS
 
+\renewcommand{\sfdefault}{phv}
+
 % Appendix
 \let\oldappendix\appendix
 \let\oldsection\section
@@ -253,15 +254,16 @@
 
 % Tables: Arev sans-serif font (similar to Verdana), in a smaller size,
 % alternate row colouring
-\newcommand\jptable[1]{
-  \fontfamily{fav}\selectfont%
+\newcommand{\jptable}[1]{
+  \sffamily%
   \smaller%
+  \sisetup{table-format = 2.4, detect-family}%
   \rowcolors{#1}{}{grey}%
   }
 \let\origtabular\tabular
 \let\origendtabular\endtabular
 \renewenvironment{tabular}[1]{%
-  \fontfamily{fav}\selectfont%
+  \sffamily%
   \smaller%
   \rowcolors{2}{}{grey}%
   \origtabular{#1}%

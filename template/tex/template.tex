@@ -178,9 +178,9 @@ Boldface the first reference to a table in the text by using the command
 \end{verbatim}
 
 \begin{table}[h]
+\jptable{1}
 \caption{Regional Price Elasticities for Fuel Supply and Electricity Demand.}
 \label{table:elas_bernstein}
-\small\centering
 \begin{tabularx}{\linewidth}{%
   X % this is to specific automatic column width
   S[table-format=1.2]% Define the format of the numbers in the column 
@@ -522,13 +522,13 @@ acknowledged.}
 \bibliographystyle{jpreport}
 
 % Include bibliography items from example.bib
-\bibliography{example}
+\bibliography{../references}
 
 % Begin the appendic
 \newpage
 \appendix
 
-\section{: Greenhouse Gamble Wheels}
+\section{Greenhouse Gamble Wheels}
 
 This is the appendix A.
 
@@ -552,8 +552,7 @@ This is the appendix B.
 
 \begin{table}[h]
 \caption{ Equilibrium Variables Related to Electricity in Top-down Model.}\label{table:topdown_var}
-   \small
-   \centering
+\jptable{1}
 \begin{tabularx}{\textwidth}{>{\hsize=4cm}X X}
 % By default, using X as the column type of tabularx spreads the column width evenly. If it is needed to specify the width of a column this can be done using the following format:
 % instead of X, use >{\hsize=4cm}X where 4cm can be changed to whatever width is desired.
