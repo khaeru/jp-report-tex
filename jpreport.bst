@@ -360,8 +360,8 @@ FUNCTION {format.names}
     { namesleft #0 > }
     { s nameptr
       duplicate$ #1 >
-        { "{f.~}{vv~}{ll}{, jj}" }
-        { "{vv~}{ll}{, f.}{, jj}" }
+        { "{f{.}.~}{vv~}{ll}{, jj}" }
+        { "{vv~}{ll}{, f{.}.}{, jj}" }
       if$
       format.name$
       bibinfo bibinfo.check
@@ -869,6 +869,12 @@ FUNCTION {format.thesis.type}
   type "type" bibinfo.check
 }
 
+
+FUNCTION {format.phdthesis.type}
+{
+  type "type" bibinfo.check
+}
+
 FUNCTION {format.tr.number}
 { number "number" bibinfo.check
   type duplicate$ empty$
@@ -1141,6 +1147,27 @@ FUNCTION {thesis}
   format.btitle "title" output.check
   new.block
   format.thesis.type output
+  school "school" bibinfo.warn output
+  address "address" bibinfo.check output
+  format.doi output
+  new.block
+  format.url output
+  new.block
+  format.note output
+  format.eprint output
+  fin.entry
+}
+
+
+FUNCTION {phdthesis}
+{ output.bibitem
+  format.authors "author" output.check
+  author format.key output
+  format.date "year" output.check
+  date.block
+  format.btitle "title" output.check
+  new.block
+  format.phdthesis.type output
   school "school" bibinfo.warn output
   address "address" bibinfo.check output
   format.doi output
