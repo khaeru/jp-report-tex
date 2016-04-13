@@ -58,11 +58,15 @@
 %   the *first* reference to each figure, table, etc. appear boldfaced. This
 %   must be done manually in LyX, or extended through more advanced hacking here
 %   or in jpreport.bst
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{jp-report}[2016/04/03 MIT Joint Program report]
+
+\RequirePackage{etoolbox}
 
 %% 1. PACKAGES
 
 % abstract: control appearance of the abstract
-\usepackage{abstract}
+\RequirePackage{abstract}
 % left and right indent of 0.4"
 \setlength\absleftindent{0.4in}
 \setlength\absrightindent{0.4in}
@@ -77,11 +81,11 @@
   }
 
 % amsmath (loaded by LyX): equation indents
-\usepackage{amsmath}
+\RequirePackage{amsmath}
 %\setlength{\mathindent}{0.25in}
 
 % caption: control format of figure and table captions
-\usepackage[
+\RequirePackage[
   indention = 5mm,
   labelfont = bf,
   labelsep = period,
@@ -105,11 +109,28 @@
 %\hypersetup{urlcolor = black}
 \urlstyle{same}
 
-% natbib (loaded by LyX)
-%\usepackage{natbib}  % PNK: temporarily disabled to use biblatex
-%\setcitestyle{round}
-%\renewcommand{\bibsection}{\section{\refname}\vskip0.5em\setstretch{1}}
-%\setlength{\bibhang}{0.25in}
+\newtoggle{loadbiblatex}
+\newtoggle{loadnatbib}
+
+\DeclareOption{biblatex}{\toggletrue{loadbiblatex}}
+\DeclareOption{natbib}{\toggletrue{loadnatbib}}
+\ProcessOptions\relax
+
+\iftoggle{loadbiblatex}{
+  \RequirePackage[
+    backend = biber,
+    natbib = true,
+    style = authoryear-comp,
+    maxcitenames = 1,
+    ]{biblatex}
+  }{}
+
+\iftoggle{loadnatbib}{
+  \RequirePackage{natbib}
+  \setcitestyle{round}
+  \renewcommand{\bibsection}{\section{\refname}\vskip0.5em\setstretch{1}}
+  \setlength{\bibhang}{0.25in}
+  }{}
 
 % prettyref (loaded by LyX): formatted cross-references appear as "Figure 1 on
 % page 5" by default. Remove the page number
@@ -221,6 +242,7 @@
   \singlespacing
   % format the name of the appendix: APPENDIX A
   \renewcommand*\thesection{APPENDIX \Alph{section}}
+  \renewcommand*\thesubsection{\Alph{section}.\arabic{subsection}}
   % add the appendix letter before figure and table numbers
   \renewcommand*\thetable{\Alph{section}\arabic{table}}
   \renewcommand*\thefigure{\Alph{section}\arabic{figure}}
@@ -314,3 +336,5 @@
 \newcommand{\tableheader}[3]{
   \multicolumn{#1}{#2}{\textbf{#3}}
   }
+
+\endinput
