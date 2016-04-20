@@ -81,7 +81,7 @@
   }
 
 % amsmath (loaded by LyX): equation indents
-\RequirePackage{amsmath}
+\RequirePackage[fleqn]{amsmath}
 %\setlength{\mathindent}{0.25in}
 
 % caption: control format of figure and table captions
@@ -96,25 +96,58 @@
 \captionsetup[table]{indention = 0cm, singlelinecheck = false}
 
 % footmisc: position & formatting of footnotes
-\usepackage[hang,flushmargin,bottom]{footmisc}
+\RequirePackage[hang,flushmargin,bottom]{footmisc}
 \setlength{\footnotemargin}{0.2in}
 
 % geometry: adjust layout and page dimensions
-\usepackage[left=1in,right=1in,top=1in,bottom=0.5in,includefoot]{geometry}
+\RequirePackage[
+  left = 1in,
+  right = 1in,
+  top = 1in,
+  bottom = 0.5in,
+  includefoot,
+  ]{geometry}
 
 % hyperref (loaded by LyX)
-\usepackage{hyperref}
-\hypersetup{colorlinks, citecolor = black, linkcolor = black}
-\hypersetup{urlcolor = blue}
-%\hypersetup{urlcolor = black}
+\RequirePackage[
+  colorlinks,
+  citecolor = black,
+  linkcolor = black,
+  urlcolor = blue,
+  ]{hyperref}
 \urlstyle{same}
 
+% xcolor options must be passed before it is optionally loaded by Tikz, below
+\PassOptionsToPackage{table}{xcolor}
+
+% Begin options processing
+\newtoggle{ispreprint}
 \newtoggle{loadbiblatex}
 \newtoggle{loadnatbib}
 
+\DeclareOption{preprint}{\toggletrue{ispreprint}}
 \DeclareOption{biblatex}{\toggletrue{loadbiblatex}}
 \DeclareOption{natbib}{\toggletrue{loadnatbib}}
+
 \ProcessOptions\relax
+
+\iftoggle{ispreprint}{
+  \RequirePackage{everypage,tikz}
+  \AddEverypageHook{
+    \begin{tikzpicture}[remember picture, overlay]
+      \begin{scope}[color = red, font=\sffamily\fontsize{30}{36}\selectfont]
+        \node [anchor = north] at (current page.north)
+          {DRAFT: Please do not cite, quote or distribute};
+        \node [anchor = south] at (current page.south)
+          {DRAFT: Please do not cite, quote or distribute};
+      \end{scope}
+      \node [color = black!25, font=\sffamily\fontsize{120}{144}\selectfont,
+             rotate = 45]
+        at (current page.center) {DRAFT};
+    \end{tikzpicture}
+  }
+}
+
 
 \iftoggle{loadbiblatex}{
   \RequirePackage[
@@ -134,13 +167,13 @@
 
 % prettyref (loaded by LyX): formatted cross-references appear as "Figure 1 on
 % page 5" by default. Remove the page number
-\usepackage{prettyref}
+\RequirePackage{prettyref}
 \newrefformat{tab}{Table \ref{#1}}
 \newrefformat{fig}{Figure \ref{#1}}
 \newrefformat{sub}{Section \ref{#1}}
 
 % ragged2e: text justification
-\usepackage{ragged2e}
+\RequirePackage{ragged2e}
 % use this instead of the 'document' package option, which (a) affects too many
 % parts of the document and (b) interferes
 \AtBeginDocument{\RaggedRight}
@@ -148,7 +181,7 @@
 \setlength{\RaggedRightParindent}{0.2in}
 
 % setspace: line spacing
-\usepackage{setspace}
+\RequirePackage{setspace}
 \setstretch{1.1}
 
 % times: Times New Roman font
@@ -157,7 +190,7 @@
 % titlesec & titletoc: the commands \titleformat and \titlespacing are used to
 % control section titles in the document; the command \titlecontents is used to
 % control appearance of the ToC
-\usepackage{titlesec,titletoc}
+\RequirePackage{titlesec,titletoc}
 % general
 \newcommand{\tocsize}{\fontsize{10pt}{10pt}\selectfont}
 \contentsmargin{0.4in} % right margin for ToC
@@ -185,7 +218,7 @@
   {\titlerule*[0.2em]{\scriptsize{.}}\thecontentspage}
 
 % titling: control the title block
-\usepackage{titling}
+\RequirePackage{titling}
 % move title closer to top of page
 \setlength{\droptitle}{-0.7in}
 \renewcommand{\maketitlehooka}{\begin{center}}
@@ -207,14 +240,15 @@
 % §3.3.5: "Do not use unnecessary horizontal lines in rows, but if there are
 % many rows: add gray shading (10%) to alternate rows, or thin (¼ pt) gray
 % horizontal divider lines."
-\usepackage[table]{xcolor}
+\RequirePackage{xcolor}
 \definecolor{grey}{gray}{0.9}
+
 
 % other packages without options. Some packages are omitted here:
 % * graphicx — loaded by LyX if graphics appear in the document
 % * xfrac — not in the TeXLive distribution
 % * authblk — no longer used
-\usepackage{%
+\RequirePackage{%
   bookmark,%
   ctable,%
   colortbl,%
