@@ -150,13 +150,44 @@
 
 
 \iftoggle{loadbiblatex}{
-  \RequirePackage[
-    backend = biber,
-    natbib = true,
-    style = authoryear-comp,
-    maxcitenames = 1,
-    ]{biblatex}
-  }{}
+\RequirePackage[
+  backend = biber,
+  natbib = true,
+  style = authoryear-comp,
+  firstinits = true, % Initialize all names
+  maxbibnames = 99, % Print all names in references
+  maxcitenames = 1, % Use 'et al' in citations
+  ]{biblatex}
+\RequirePackage{xpatch}
+% Formatting for citations: italicize 'et al.'
+\xpatchbibmacro{name:andothers}%
+{\bibstring{andothers}}%
+{\bibstring[\emph]{andothers}}{}{}
+% Formatting for references: no spaces between initials
+\renewrobustcmd*{\bibinitdelim}{}
+% Titles unquoted (without \mkbibquote{})
+\DeclareFieldFormat
+  [article,inbook,incollection,inproceedings,patent,thesis,unpublished]
+  {title}{#1\isdot}
+% Suppress 'In:' before journal name
+\renewbibmacro{in:}{}
+% Journal volume in bold
+\renewbibmacro*{volume+number+eid}{%
+  \printfield[bold]{volume}%
+  \printfield[parens]{number}%
+  \printfield{eid}}
+\xpatchbibmacro{journal+issuetitle}%
+{\newunit}%
+{\setunit*{:}}{}{}
+\DefineBibliographyStrings{english}{%
+  pages = {}, % Suppress 'pp.' before pages
+  url = {}, % Suppress 'URL:' before URLs
+}
+% URLs in parentheses
+\xpatchbibmacro{doi+eprint+url}%
+{\usebibmacro{url+urldate}}%
+{\iffieldundef{url}{}{\printtext[parens]{\usebibmacro{url+urldate}}}}{}{}
+}{}
 
 \iftoggle{loadnatbib}{
   \RequirePackage{natbib}
