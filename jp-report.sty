@@ -156,7 +156,9 @@
   style = authoryear-comp,
   firstinits = true, % Initialize all names
   maxbibnames = 99, % Print all names in references
-  maxcitenames = 1, % Use 'et al' in citations
+  maxcitenames = 1,   % Use 'et al' in citations, even if this results in
+  uniquename = false, % …Smith et al. (2015), Smith et al. (2016) w/ different
+  uniquelist = false, % authors
   ]{biblatex}
 \RequirePackage{xpatch}
 % Formatting for citations: italicize 'et al.'
