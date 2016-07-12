@@ -167,7 +167,7 @@
 {\bibstring[\emph]{andothers}}{}{}
 % Formatting for references: no spaces between initials
 \renewrobustcmd*{\bibinitdelim}{}
-% Titles unquoted (without \mkbibquote{})
+% Titles unquoted (that is, without \mkbibquote{})
 \DeclareFieldFormat
   [article,inbook,incollection,inproceedings,patent,thesis,unpublished]
   {title}{#1\isdot}
@@ -178,6 +178,7 @@
   \printfield[bold]{volume}%
   \printfield[parens]{number}%
   \printfield{eid}}
+% use ':' before pages
 \xpatchbibmacro{journal+issuetitle}%
 {\newunit}%
 {\setunit*{:}}{}{}
@@ -381,26 +382,6 @@
 \end{samepage}
 \vspace{16pt}
 }
-
-%% Lists — enumerate
-%\newcounter{qcounter}
-%\renewenvironment{enumerate}{%
-%  \setcounter{qcounter}{1}%
-%  \begin{list}%
-%  {\arabic{qcounter}.}{\usecounter{qcounter}%
-%  \setlength\leftmargin{0.75in}%
-%  \setlength\itemsep{2pt}%
-%  \setlength\labelsep{0.15in}}}
-%  {\end{list}}
-%
-%% Lists — itemize
-%\renewenvironment{itemize}{%
-%  \begin{list}{$\bullet$}{%
-%  \setlength\leftmargin{0.5in}%
-%  \setlength\itemsep{-2pt}%
-%  \setlength\labelsep{0.15in}%
-%  \setlength\topsep{0pt}}}
-%  {\end{list}}
 
 % Table column types
 \newcolumntype{C}{>{\centering\arraybackslash}X}
